@@ -8,7 +8,7 @@ import matplotlib.pyplot as plt
 from shapely.geometry import Point
 from streamlit_folium import st_folium
 
-st.set_page_config(page_title="Residuos Municipales", page_icon="🚮", initial_sidebar_state="expanded", layout='wide')
+st.set_page_config(page_title="Sismos", page_icon="🌐", initial_sidebar_state="expanded", layout='wide')
 # Cargar dataset
 file_path = "Dataset_1960_2023_sismo.csv"
 data = pd.read_csv(file_path)
@@ -245,7 +245,20 @@ def mapa():
     #df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'], format='%Y-%m-%d')
     df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'], format='%Y%m%d')
     df['AÑO'] = df['FECHA_UTC'].dt.year
-    df['MES'] = df['FECHA_UTC'].dt.month_name(locale="es_ES")  # Nombres de meses en español
+    # Convert to datetime
+    # df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'])
+    
+    # Define a dictionary for month names in Spanish
+    month_names = {
+        1: "enero", 2: "febrero", 3: "marzo", 4: "abril",
+        5: "mayo", 6: "junio", 7: "julio", 8: "agosto",
+        9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
+    }
+    
+    # Map the month numbers to their names
+    df['MES'] = df['FECHA_UTC'].dt.month.map(month_names)
+    # df['MES'] = df['FECHA_UTC'].dt.month_name(locale="es_ES")  # Nombres de meses en español
+    
     df['DIA'] = df['FECHA_UTC'].dt.day
 
     # Crear geometrías de puntos a partir de LONGITUD y LATITUD
