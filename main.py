@@ -7,6 +7,7 @@ import folium
 import matplotlib.pyplot as plt
 from shapely.geometry import Point
 from streamlit_folium import st_folium
+from PIL import Image
 
 st.set_page_config(page_title="Sismos", page_icon="🌐", initial_sidebar_state="expanded", layout='wide')
 # Cargar dataset
@@ -18,12 +19,16 @@ data['HORA_UTC'] = pd.to_datetime(data['HORA_UTC'], errors='coerce', format='%H%
 # Funciones de las páginas
 def home_page():
     st.title("Catálogo Sísmico 1960 - 2023")
-    st.write("Bienvenido a la aplicación de análisis de sismos.")
+    st.markdown("<h1 style='color:blue; text-align:center;'>BIENVENIDO A LA APLICACIÓN DE ANÁLISIS DE SISMOS</h1>", unsafe_allow_html=True)
 
     # Introducción al tema
     st.markdown("""
     ### ¿Qué es un sismo?
-    Un sismo, también conocido como terremoto, es una vibración del terreno producida por la liberación súbita de energía acumulada en la corteza terrestre debido al movimiento de las placas tectónicas. Los sismos pueden ser leves y casi imperceptibles o devastadores, con graves consecuencias para la población y la infraestructura.
+    Un sismo es una sacudida brusca y pasajera de la corteza terrestre que se produce por diversas causas, siendo las más comunes la actividad de fallas geológicas. También puede originarse por la fricción en el borde de placas tectónicas, procesos volcánicos, impactos de asteroides o explosiones nucleares subterráneas realizadas por el ser humano.
+
+    El punto donde inicia el movimiento dentro de la Tierra se llama hipocentro o foco, y el lugar de la superficie terrestre directamente encima de este punto se denomina epicentro. Los sismos generan ondas sísmicas que se propagan desde el hipocentro y pueden causar fenómenos como desplazamientos de la corteza terrestre, tsunamis, corrimientos de tierras o actividad volcánica, dependiendo de su magnitud y origen.
+
+    Se clasifican en varios tipos, como tectónicos, volcánicos, superficiales, y pueden medirse mediante escalas como la de Richter o la de magnitud de momento.
 
     ### Importancia del monitoreo de sismos
     - **Prevención**: El análisis de los datos sísmicos ayuda a entender las zonas de riesgo y diseñar construcciones más seguras.
@@ -32,34 +37,99 @@ def home_page():
 
     En esta aplicación, puedes explorar datos sísmicos registrados desde 1960 hasta 2023. Usa las opciones del menú para visualizar mapas, gráficos y aplicar filtros personalizados según tus intereses.
     """)
-
-    st.image(
-        "img/sismo.png",  # Ruta relativa a la imagen
-        caption="El movimiento de la tierra nos impulsa a ser más conscientes y a valorar cada instante",
-        use_container_width=True
-    )
-
-    col1, col2 = st.columns(2)
+    img = Image.open("img/sismoportada.jpeg")
+    img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
+    # Mostrar la imagen redimensionada
+    st.image(img)
+    st.markdown("https://sinia.minam.gob.pe/sites/default/files/sial-sialtrujillo/archivos/public/docs/328.pdf")
+    # st.image(
+    #     "img/sismo.png",  # Ruta relativa a la imagen
+    #     caption="El movimiento de la tierra nos impulsa a ser más conscientes y a valorar cada instante",
+    #     use_container_width=True
+    # )
+    
+    col1, col2 = st.columns([4,1])
+    st.markdown("<h3>Componentes<h3>", unsafe_allow_html=True)
     # Conclusión  al tema
     with col1:
         st.markdown("""
-        <p style='font-size: 1.2rem;'>
-        El Perú, ubicado en el Cinturón de Fuego del Pacífico, es una región altamente sísmica. Esta <br>actividad, combinada con un alto porcentaje de viviendas construidas mediante <br>autoconstrucción o de antigüedad considerable, incrementa significativamente la <br>vulnerabilidad de su población frente a eventos sísmicos. En este contexto, la plataforma de <br>catálogo sísmico (1960-2023) que hemos desarrollado se convierte en una herramienta <br>fundamental para informar a los usuarios sobre los sismos históricos en el país, facilitar la <br>investigación sismológica con una base de datos homogénea y concientizar a la población <br>sobre la recurrencia de estos eventos y la importancia de estar preparados [1].
-        <br><br>Nuestra plataforma cuenta con funcionalidades clave diseñadas para mejorar la <br>comprensión de los usuarios. A través de mapas interactivos, es posible visualizar la <br>distribución espacial de los sismos, diferenciados por colores según su magnitud o <br>profundidad [2]. Los filtros dinámicos permiten realizar búsquedas específicas por <br>magnitud, profundidad, fecha y departamento, mientras que gráficos como histogramas y <br>dispersión ofrecen análisis detallados sobre la frecuencia de los sismos y la relación entre <br>sus parámetros. Además, cada evento cuenta con información detallada sobre su fecha, <br>hora, magnitud, profundidad, ubicación y, cuando sea posible, datos sobre daños ocasionados.
-        <br><br>El diseño intuitivo de la interfaz y la inclusión de recursos educativos sobre la sismología <br>en Perú contribuyen a que esta herramienta sea accesible tanto para investigadores como <br>para el público en general. Asimismo, se considera crucial mantener la base de datos <br>actualizada con los últimos eventos sísmicos para garantizar la relevancia y efectividad de la <br>plataforma [3].
-        <br><br>Con esta plataforma, buscamos no solo aumentar el conocimiento sobre la actividad <br>sísmica en el Perú, sino también contribuir a la toma de decisiones informadas para la <br>prevención y mitigación de desastres, fortaleciendo así la resiliencia de nuestras
-        <br>comunidades ante futuros eventos. sísmicos.</p>""", unsafe_allow_html=True)
-
-    with col2:
+        <p>
+        El Perú, ubicado en el Cinturón de Fuego del Pacífico, es una región altamente sísmica. Esta actividad, combinada con un alto porcentaje de viviendas construidas mediante autoconstrucción o de antigüedad considerable, incrementa significativamente la vulnerabilidad de su población frente a eventos sísmicos. En este contexto, la plataforma de catálogo sísmico (1960-2023) que hemos desarrollado se convierte en una herramienta fundamental para informar a los usuarios sobre los sismos históricos en el país, facilitar la investigación sismológica con una base de datos homogénea y concientizar a la población sobre la recurrencia de estos eventos y la importancia de estar preparados [1].
+        Nuestra plataforma cuenta con funcionalidades clave diseñadas para mejorar la comprensión de los usuarios. A través de mapas interactivos, es posible visualizar la distribución espacial de los sismos, diferenciados por colores según su magnitud o profundidad [2]. Los filtros dinámicos permiten realizar búsquedas específicas por magnitud, profundidad, fecha y departamento, mientras que gráficos como histogramas y dispersión ofrecen análisis detallados sobre la frecuencia de los sismos y la relación entre sus parámetros. Además, cada evento cuenta con información detallada sobre su fecha, hora, magnitud, profundidad, ubicación y, cuando sea posible, datos sobre daños ocasionados.
+        El diseño intuitivo de la interfaz y la inclusión de recursos educativos sobre la sismología en Perú contribuyen a que esta herramienta sea accesible tanto para investigadores como para el público en general. Asimismo, se considera crucial mantener la base de datos actualizada con los últimos eventos sísmicos para garantizar la relevancia y efectividad de la plataforma [3].
+        Con esta plataforma, buscamos no solo aumentar el conocimiento sobre la actividad sísmica en el Perú, sino también contribuir a la toma de decisiones informadas para la prevención y mitigación de desastres, fortaleciendo así la resiliencia de nuestras
+        comunidades ante futuros eventos. sísmicos.</p>""", unsafe_allow_html=True)
+    with col2: 
         st.image(
             "img/sismo_intro.png",  # Ruta relativa a la imagen
             caption="El movimiento de la tierra nos impulsa a ser más conscientes y a valorar cada instante",  use_container_width=True
         )
+    col1, col2 = st.columns([1,4])
+    with col1:
+        img = Image.open("img/informesismo.png")
+        img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
+        # Mostrar la imagen redimensionada
+        st.image(img)
+    with col2:
+        st.markdown("""
+        <h5 style="color:blue; font-weight:bold; margin-bottom:5px;">Sismotectónica del sismo de Yauca del 28 de junio 2024 (M7.0) y niveles de sacudimiento del suelo - Informe Técnico N° 023-2024/IGP Ciencias de la Tierra Sólida</h5>
+        
+        <p style="font-size:1.2rem;">El 28 de junio de 2024, un sismo de magnitud 7.0 ocurrió a 54 km al SO de Yauca, Arequipa, con sacudidas percibidas hasta 500 km. Fue causado por la fricción entre las placas de Nazca y Sudamericana, generando 16 réplicas en 48 horas. El área de ruptura fue de 55 x 70 km. Aceleraciones de 150 cm/seg² en Yauca, Chala, Atiquipa y Bella Unión provocaron daños en viviendas de adobe y concreto, además de deslizamientos en la Panamericana Sur y vías secundarias.</p>
+        
+        """, unsafe_allow_html=True)
+
+        st.markdown("""https://sigrid.cenepred.gob.pe/sigridv3/documento/17731.""")
+    col1, col2 = st.columns([1,4])
+    with col1:
+        img = Image.open("img/mapasismico.png")
+        img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
+        # Mostrar la imagen redimensionada
+        st.image(img)
+
+    with col2:
+        st.markdown("""
+        <h5 style="color:blue; font-weight:bold; margin-bottom:5px;">MAPAS SÍSMICOS</h5>
+        
+        <p style="font-size:1rem;">El 19 de septiembre de 2013, el Instituto Geofísico del Perú (IGP) presentó el Mapa Sísmico del Perú en el Ministerio del Ambiente (MINAM), resultado de un trabajo de cuatro años concluido en 2012. Este documento detalla la distribución de eventos sísmicos entre 1960 y 2011, clasificados por profundidad, y permite identificar las zonas más afectadas por sismos en el país. Hernando Tavera, responsable del área de Sismología del IGP, destacó que las ciudades de la Costa son las más impactadas por sismos de intensidad regular y alta. En la sierra y la selva, las regiones con mayor actividad sísmica incluyen Moyobamba, Rioja, Ayacucho, Huancayo, Cusco y el Cañón del Colca, en Arequipa. Los mapas fueron entregados a direcciones del MINAM, como la Dirección de Investigación e Información Ambiental y la de Ordenamiento Territorial, para apoyar la gestión del riesgo y la preparación de la población ante sismos. La ceremonia contó con la participación de autoridades del IGP, MINAM, INDECI, RedPeIA, SOS Emergencias, la Municipalidad de Lima y otros organismos. </p>
+        
+        """, unsafe_allow_html=True)
+
+        st.markdown("""https://sinia.minam.gob.pe/novedades/sismos-son-mas-frecuentes-fuertes-costa-pais""")
+    col1, col2 = st.columns([1,4])
+    with col1:
+        img = Image.open("img/simulaciones.png")
+        img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
+        # Mostrar la imagen redimensionada
+        st.image(img)
+    with col2:
+        st.markdown("""
+        <h5 style="color:blue; font-weight:bold; margin-bottom:5px; ">Aprueban la Ejecución de Simulacros y Simulaciones y la Directiva “Ejecución de Simulacros y Simulaciones Ante Peligros Asociados a Fenómenos de Origen Natural”</h5>
+        
+        <p style="font-size:1.2rem;">reaccionar ante diversos escenarios (por bajas temperaturas; sismos seguido de tsunami; sismos seguido de fenómenos de geodinámica externa y por intensas precipitaciones pluviales) y la ejecución de las simulaciones tiene por objeto poner a prueba los Planes de Gestión Reactiva de los sectores, gobiernos regionales y locales, entidades públicas y privadas. .</p>
+        
+        """, unsafe_allow_html=True)
+
+        st.markdown("""https://sinia.minam.gob.pe/sites/default/files/sinia/archivos/public/docs/rm_080-2016-pcm.pdf""")
+    col1, col2 = st.columns([1,4])
+    with col1:
+        img = Image.open("img/frecuentes.png")
+        img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
+        # Mostrar la imagen redimensionada
+        st.image(img)
+    with col2:
+        st.markdown("""
+        <h5 style="color:blue; font-weight:bold; margin-bottom:5px;">Sismos son más frecuentes y fuertes en la costa del país</h5>
+        
+        <p style="font-size:1.2rem;">El Mapa Sísmico del Perú muestra sismos de magnitud ≥M4.0 desde 1960, según datos del IGP y Engdahl & Villaseñor. Clasifica eventos como superficiales, intermedios y profundos, según la profundidad de sus focos. Los sismos se originan en tres fuentes: contacto entre placas (como el terremoto de Pisco 2007, 8.0Mw), deformación continental (Moyobamba 1991, M6.0), y deformación oceánica (2011, M7.0). Predomina la actividad sísmica en el Centro y Sur. Este mapa es clave para delimitar zonas sismogénicas y prevenir riesgos.</p>
+        
+        """, unsafe_allow_html=True)
+
+        st.markdown("""https://ultimosismo.igp.gob.pe/mapas-sismicos""")
+
     st.markdown("""
     ### Recursos adicionales
-    - [Instituto Geofísico del Perú (IGP)](https://www.igp.gob.pe/)
-    - [Servicio Geológico de los Estados Unidos (USGS)](https://earthquake.usgs.gov/)
-    - [Wikipedia: Terremotos](https://es.wikipedia.org/wiki/Terremoto)
+    - [El sitio web oficial de los registros administrativos del riesgo de desastres](https://sigrid.cenepred.gob.pe/sigridv3/documento/17731)
+    - [El Sistema Nacional de Información Ambiental](https://sinia.minam.gob.pe/normas/aprueban-ejecucion-simulacros-simulaciones-directiva-ejecucion)
     """)
 
     st.info("🙌La naturaleza puede ser poderosa, pero la valentía y la solidaridad de las personas son indestructibles.🥰")
@@ -386,9 +456,8 @@ def conclusion():
     with col1:
         st.markdown("""
         <p style='font-size: 1.4rem;'>
-        En conclusión, nuestro proyecto consiste en el desarrollo de un dashboard interactivo para <br>visualizar y analizar datos sísmicos de Perú entre 1960 y 2023, utilizando un dataset en <br>formato CSV. Realizamos un procesamiento de datos para asignar los sismos a <br>departamentos específicos y ajustamos el formato de fecha y hora para mayor legibilidad. <br><br>El dashboard, construido con Streamlit, ofrece funcionalidades como filtros de <br>selección, gráficos de barras y un mapa interactivo. La interfaz incluye un menú de <br>navegación para facilitar la interacción del usuario, y destacamos la importancia de una <br>guía de usuario que explique el uso del dashboard con imágenes ilustrativas.
-        <br><br>Consideramos que el proyecto tiene un alto potencial para la evaluación de riesgos <br>sísmicos, la investigación geológica y la educación pública. Sin embargo, es fundamental <br>asegurar la implementación completa del código, tener en cuenta la precisión de la <br>geolocalización y mantener el dataset actualizado.
-
+        En conclusión, nuestro proyecto consiste en el desarrollo de un dashboard interactivo para visualizar y analizar datos sísmicos de Perú entre 1960 y 2023, utilizando un dataset en formato CSV. Realizamos un procesamiento de datos para asignar los sismos a departamentos específicos y ajustamos el formato de fecha y hora para mayor legibilidad. El dashboard, construido con Streamlit, ofrece funcionalidades como filtros de selección, gráficos de barras y un mapa interactivo. La interfaz incluye un menú de navegación para facilitar la interacción del usuario, y destacamos la importancia de una guía de usuario que explique el uso del dashboard con imágenes ilustrativas.
+        Consideramos que el proyecto tiene un alto potencial para la evaluación de riesgos sísmicos, la investigación geológica y la educación pública. Sin embargo, es fundamental asegurar la implementación completa del código, tener en cuenta la precisión de la geolocalización y mantener el dataset actualizado.
         </p>""", unsafe_allow_html=True)
 
     with col2:
@@ -398,12 +467,10 @@ def conclusion():
         )
 
     st.markdown("""
-    ### Recursos adicionales falta para conclusión
-    - [[1] Guerrero, B. S. (2021, July 20). ¿Estamos preparados para afrontar un sismo en el Perú? UDEP](https://www.udep.edu.pe/hoy/2021/07/estamos-preparados-para-afrontar-un-sismo-en-el-peru/)
-    - [[2] Visor de Imágenes. (n.d.). Gob.Pe](https://www.idep.gob.pe/geovisor/imagenes/)
-    - [[3] CENSIS - Instituto Geofísico del Perú. (n.d.). Gob.Pe](https://ultimosismo.igp.gob.pe/mapas-sismicos)
+    ### Recursos adicionales
+    - [El sitio web oficial de los registros administrativos del riesgo de desastres](https://sigrid.cenepred.gob.pe/sigridv3/documento/17731)
+    - [El Sistema Nacional de Información Ambiental](https://sinia.minam.gob.pe/normas/aprueban-ejecucion-simulacros-simulaciones-directiva-ejecucion)
     """)
-
     st.info("🙌La naturaleza puede ser poderosa, pero la valentía y la solidaridad de las personas son indestructibles.🥰")
 
 def foto():
