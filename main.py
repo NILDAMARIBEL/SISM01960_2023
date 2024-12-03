@@ -68,7 +68,6 @@ def home_page():
     with col1:
         img = Image.open("img/informesismo.png")
         img = img.resize((250, 300))  # Ajusta el valor de la altura según lo necesario
-        # Mostrar la imagen redimensionada
         st.image(img)
     with col2:
         st.markdown("""
@@ -290,8 +289,7 @@ def visualizacion_profundidad(tipo):
             cantidad = datos_filtrados.shape[0]
             st.write(f"Cantidad de sismos : {cantidad}")
 
-# MENU
-# Función mapa
+
 def mapa():
     # Configuración de la página
     """
@@ -305,30 +303,22 @@ def mapa():
     departamentos = gpd.read_file('departamentos_perú.geojson')
     if departamentos.crs is None or departamentos.crs != "EPSG:4326":
         departamentos = departamentos.to_crs("EPSG:4326")
-
-    
+        
     # Cargar el dataset de los sismos
     df = pd.read_csv('Dataset_1960_2023_sismo.csv')
 
     
-    # Crear nuevas columnas para Año, Mes (como texto) y Día
-    #df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'], format='%Y-%m-%d')
+    # Crear nuevas columnas para Año, Mes y Día
     df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'], format='%Y%m%d')
-    df['AÑO'] = df['FECHA_UTC'].dt.year
-    # Convert to datetime
-    # df['FECHA_UTC'] = pd.to_datetime(df['FECHA_UTC'])
+    df['AÑO'] = df['FECHA_UTC'].dt.year    
     
-    # Define a dictionary for month names in Spanish
     month_names = {
         1: "enero", 2: "febrero", 3: "marzo", 4: "abril",
         5: "mayo", 6: "junio", 7: "julio", 8: "agosto",
         9: "septiembre", 10: "octubre", 11: "noviembre", 12: "diciembre"
     }
     
-    # Map the month numbers to their names
-    df['MES'] = df['FECHA_UTC'].dt.month.map(month_names)
-    # df['MES'] = df['FECHA_UTC'].dt.month_name(locale="es_ES")  # Nombres de meses en español
-    
+    df['MES'] = df['FECHA_UTC'].dt.month.map(month_names)    
     df['DIA'] = df['FECHA_UTC'].dt.day
 
     # Crear geometrías de puntos a partir de LONGITUD y LATITUD
@@ -339,13 +329,13 @@ def mapa():
     joined_gdf = gpd.sjoin(gdf, departamentos, how="inner", predicate="intersects")
 
     # Crear columnas para separar el mapa y los filtros
-    col1, col2 = st.columns([3, 1])  # Columna más ancha para el mapa (3), columna más estrecha para los filtros y gráficos (1)
+    col1, col2 = st.columns([3, 1])  
 
     # Filtros de selección en la columna derecha
     with col2:
         st.markdown("### Filtros de Selección")
         
-        # Filtro por departamento (con opción de seleccionar múltiples)
+        # Filtro por departamento con opción de seleccionar múltiples
         filtro_departamento = st.multiselect("Selecciona un o más departamentos", options=["Todos"] + departamentos['NOMBDEP'].unique().tolist(), default=["Todos"])
         
         # Filtro por rango de años y año único
